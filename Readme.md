@@ -70,27 +70,27 @@ Model:
 ## Ejemplo
 
 ```python
-import arrythmia_graph_detection as agd
+import ArrythmiaGraphDetector as agd
+import numpy as np
 
-[puntos, triangulos, _, matriz_adyacencia, reentradas_anatomicas] = agpd.crear_grafo("archivo.obj")
+[puntos, triangulos, _, matriz_adyacencia, reentradas_anatomicas] = agd.crear_grafo("auricula.obj")
+agd.pintar_puntos(puntos, matriz_adyacencia, caminos = reentradas_anatomicas, show_index = False)
 
-agpd.pintar_puntos(puntos, matriz_adyacencia, caminos = reentradas_anatomicas, show_index = False)
+datos_puntos = agd.crear_grafo_vtk("auricula.obj", "datos_auricula.csv")[4]
 
-datos_puntos = agpd.crear_grafo_vtk("archivo.obj", "vtk_cell_data.csv")
+puntos = np.array(puntos) # Importante porque si no, no se puede calcular velocidades
+velocidades = agd.obtener_velocidades_csv("datos_velocidades.csv", datos_puntos, 1)
 
-velocidades = obtener_velocidades_csv("velocidades.csv", datos_puntos, 1)
-
-
-reentradas_funcionales = agpd.detectar_rotores(matriz_adyacencia, puntos, velocidades, limites_espacio = [12, 20], limites_tiempo = [120, 99999])
-
-agd.pintar_puntos_rotores(puntos, matriz_adyacencia, reentradas_funcionales, show_index = False)
+reentradas_funcionales = agd.detectar_rotores(matriz_adyacencia, puntos, velocidades, limites_espacio = [12, 20], limites_tiempo = [200, 99999])
 
 tiempos = [int(round(agd.calcular_tiempo_camino(camino, velocidades, puntos)*1000)) for camino in reentradas_funcionales]
-
 tiempo_puntos = agd.calcular_tiempo_maximo_punto(puntos, tiempos, reentradas_funcionales)
+
 agd.pintar_puntos_rotores(puntos, tiempo_puntos, triangulos)
 
-agd.guardar_caminos("caminos.csv", reentradas_funcionales)
+agd.guardar_caminos(reentradas_funcionales, "caminos.csv")
+caminos = agd.cargar_caminos("caminos.csv")
+
 ```
 ## Autor
 
