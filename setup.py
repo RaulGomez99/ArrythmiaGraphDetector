@@ -19,8 +19,7 @@ INSTALL_REQUIRES = [
         'pandas',
         'matplotlib',
         'plotly',
-        'networkx',
-        'ast'
+        'networkx'
       ]
 
 setup(
