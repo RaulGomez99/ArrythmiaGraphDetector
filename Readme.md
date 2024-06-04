@@ -9,7 +9,7 @@ Esta librería es de un Trabajo de Final de Grado de la Universitat de València
 Instalar mediante pip y el enlace de GitHub:
 
 ```bash
-pip install git+
+pip install git+https://github.com/RaulGomez99/ArrythmiaGraphDetector
 ```
 
 ## Uso
