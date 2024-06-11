@@ -76,12 +76,12 @@ import numpy as np
 [puntos, triangulos, _, matriz_adyacencia, reentradas_anatomicas] = agd.crear_grafo("auricula.obj")
 agd.pintar_puntos(puntos, matriz_adyacencia, caminos = reentradas_anatomicas, show_index = False)
 
-datos_puntos = agd.crear_grafo_vtk("auricula.obj", "datos_auricula.csv")[4]
+datos_puntos = agd.crear_grafo_vtk("auricula.obj", "datos_auricula.csv")[4] # Recomendación guardarlo en CSV para no tener que hacerlo cada vez
 
 puntos = np.array(puntos) # Importante porque si no, no se puede calcular velocidades
 velocidades = agd.obtener_velocidades_csv("datos_velocidades.csv", datos_puntos, 1)
 
-reentradas_funcionales = agd.detectar_rotores(matriz_adyacencia, puntos, velocidades, limites_espacio = [12, 20], limites_tiempo = [200, 99999])
+reentradas_funcionales = agd.detectar_rotores(matriz_adyacencia, puntos, velocidades, limites_espacio = [0, 20], limites_tiempo = [0, 99999]) # Se recomienda poner los limítes inferiores a 0 y luego filtrar ya que este ni afecta al rendimiento y así se pueden obtener más datos
 
 tiempos = [int(round(agd.calcular_tiempo_camino(camino, velocidades, puntos)*1000)) for camino in reentradas_funcionales]
 tiempo_puntos = agd.calcular_tiempo_maximo_punto(puntos, tiempos, reentradas_funcionales)
